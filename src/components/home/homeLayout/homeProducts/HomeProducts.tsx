@@ -80,7 +80,7 @@ export const HomeProducts = () => {
                     <div className="flex justify-center mt-12">
                         <Link href="/all-products">
                             <button
-                                className="group cursor-pointer bg-rose-500 hover:bg-rose-600 text-white font-semibold text-lg rounded-full px-8 py-3 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out transform hover:translate-x-3 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+                                className="group cursor-pointer bg-teal-500 hover:bg-teal-600 text-white font-semibold text-lg rounded-full px-8 py-3 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out transform hover:translate-x-3 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
                             >
                                 <span className="flex items-center gap-2">
                                     View All Products

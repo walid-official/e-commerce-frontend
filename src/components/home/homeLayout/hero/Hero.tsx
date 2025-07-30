@@ -22,9 +22,14 @@ export const Hero = () => {
             <div className="grid gap-8 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_600px] items-center">
             <div className="flex flex-col justify-center space-y-6">
                 <div className="space-y-4">
-                <p className="text-sm font-semibold text-teal-500 uppercase tracking-wider">Up to 50% Off</p>
+                {/* <p className="text-sm font-semibold  tracking-wider">
+                    <span className="bg-teal-700 uppercase text-white py-3 px-6 rounded-full">
+                     Up to 50% Off
+                    </span>
+                    
+                    </p> */}
                 <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl/none">
-                    We Print Best Designs.
+                    Comfort Meets Cool: Shop Iconic T-Shirts
                 </h1>
                 <p className="max-w-[700px] text-lg text-muted-foreground md:text-xl italic">
                     Discover our exclusive collection of high-quality t-shirts, designed for comfort, durability, and
@@ -33,9 +38,9 @@ export const Hero = () => {
                 </div>
                 <div className="flex flex-col gap-4 min-[400px]:flex-row">
                 <Link href="#" passHref>
-                    <Button size="lg" className="px-8 py-3 text-lg bg-rose-500 hover:bg-rose-600 text-white">
+                    <button className="bg-teal-600 uppercase text-white py-3 px-8 cursor-pointer hover:bg-teal-700 duration-300 rounded-full">
                     Shop Now
-                    </Button>
+                    </button>
                 </Link>
                 </div>
             </div>
