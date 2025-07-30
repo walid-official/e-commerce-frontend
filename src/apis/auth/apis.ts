@@ -1,5 +1,5 @@
 import apiClient from '@/utils/apiClient';
-import { SIGNIN, REGISTER } from './endpoints';
+import { SIGNIN, REGISTER, GET_ME } from './endpoints';
 import { storeToken } from '@/utils/auth';
 
 export const signin = async (values: any) => {
@@ -26,4 +26,9 @@ export const signup = async (values: any) => {
     console.error('Error signing up:', error);
     throw error;
   }
+};
+
+export const getUser = async () => {
+  const response = await apiClient.get(GET_ME); 
+  return response.data;
 };

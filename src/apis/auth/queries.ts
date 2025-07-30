@@ -1,6 +1,6 @@
 // src/app/apis/hooks.ts
-import { useMutation } from '@tanstack/react-query';
-import { signin, signup } from './apis';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { getUser, signin, signup } from './apis';
 
 export const useSignupMutation = () => {
   return useMutation({
@@ -15,5 +15,14 @@ export const useSigninMutation = () => {
     mutationFn: async (data: any) => {
       return await signin(data);
     },
+  });
+};
+
+export const useGetUserQuery = () => {
+  return useQuery({
+    queryKey: ['user'],
+    queryFn: getUser,
+    staleTime: 5 * 60 * 1000,
+    retry: 1,
   });
 };

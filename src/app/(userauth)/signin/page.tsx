@@ -1,5 +1,4 @@
 
-// import AuthForm from '@/app/components/AuthForm';
 import { AuthForm } from '@/components/auth';
 import React from 'react';
 

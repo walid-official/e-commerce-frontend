@@ -25,23 +25,23 @@ export const AuthForm = ({ isLogin }: { isLogin: boolean }) =>  {
           </CardHeader>
           <CardContent>
             {isLogin ? <SigninForm /> : <SignupForm /> }
-            {/* <div className="mt-6 text-center text-sm">
+            <div className="mt-6 text-center text-sm">
               {isLogin ? (
                 <>
                   Don&apos;t have an account?{" "}
-                  <Link href="#" onClick={() => setIsLogin(false)} className="underline">
+                  <Link href="/signup"  className="underline">
                     Sign Up
                   </Link>
                 </>
               ) : (
                 <>
                   Already have an account?{" "}
-                  <Link href="#" onClick={() => setIsLogin(true)} className="underline">
+                  <Link href="/signin"  className="underline">
                     Sign In
                   </Link>
                 </>
               )}
-            </div> */}
+            </div>
           </CardContent>
         </Card>
       </div>
