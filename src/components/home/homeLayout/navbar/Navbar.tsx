@@ -6,11 +6,14 @@ import { Menu, LogIn, LogOut, ShoppingCart } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { isAuthenticated, logout } from "@/utils/auth"
+import { useRouter } from "next/navigation"
 
 export const Navbar = () => {
-  // This state would typically come from an authentication context or session
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false)
 
+ const isLoggedIn = isAuthenticated()
+ const router = useRouter();
+ 
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "All Products", href: "/products" },
@@ -19,9 +22,19 @@ export const Navbar = () => {
     { name: "FAQ", href: "/faq" },
   ]
 
+  const handleLogin = () => {
+    router.push("/signin")
+  }
+
+const handleLogout = async () => {
+      logout();
+      router.push("/");
+  };
+
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/90 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-950/90">
-      <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+    <header className="sticky top-0 z-50 w-full border-b py-2 bg-white/90 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-950/90">
+      <div className="mx-auto max-w-7xl flex h-16 items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 text-lg font-bold tracking-tight md:text-xl">
           <span className="text-gray-900 dark:text-gray-50">DenialFashion</span>
@@ -52,12 +65,12 @@ export const Navbar = () => {
           </Button>
 
           {isLoggedIn ? (
-            <Button onClick={() => setIsLoggedIn(false)} variant="outline" className="hidden md:flex">
+            <Button onClick={handleLogout}  variant="outline" className="hidden md:flex cursor-pointer">
               <LogOut className="mr-2 h-4 w-4" />
               Logout
             </Button>
           ) : (
-            <Button onClick={() => setIsLoggedIn(true)} variant="default" className="hidden md:flex">
+            <Button onClick={handleLogin}  variant="default" className="hidden md:flex cursor-pointer">
               <LogIn className="mr-2 h-4 w-4" />
               Login
             </Button>
@@ -84,12 +97,12 @@ export const Navbar = () => {
                 ))}
                 <div className="mt-4 border-t pt-4">
                   {isLoggedIn ? (
-                    <Button onClick={() => setIsLoggedIn(false)} variant="outline" className="w-full">
+                    <Button onClick={handleLogout}  variant="outline" className="w-full cursor-pointer">
                       <LogOut className="mr-2 h-4 w-4" />
                       Logout
                     </Button>
                   ) : (
-                    <Button onClick={() => setIsLoggedIn(true)} variant="default" className="w-full">
+                    <Button onClick={handleLogin}  variant="default" className="w-full cursor-pointer">
                       <LogIn className="mr-2 h-4 w-4" />
                       Login
                     </Button>
