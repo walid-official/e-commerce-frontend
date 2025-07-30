@@ -77,6 +77,7 @@ const handleLogout = async () => {
           )}
 
           {/* Mobile Navigation Toggle */}
+
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
@@ -85,7 +86,7 @@ const handleLogout = async () => {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[250px] sm:w-[300px]">
-              <nav className="flex flex-col gap-6 pt-6">
+              <nav className="flex flex-col gap-6 p-6">
                 {navLinks.map((link) => (
                   <Link
                     key={link.name}

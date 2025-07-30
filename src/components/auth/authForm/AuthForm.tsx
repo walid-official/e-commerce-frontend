@@ -6,9 +6,13 @@ import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { SigninForm } from "../signin"
 import { SignupForm } from "../signup"
+import { usePathname } from "next/navigation"
+import { UpdatePasswordForm } from "../updatePassword"
 
-export const AuthForm = ({ isLogin }: { isLogin: boolean }) =>  {
-//   const [isLogin, setIsLogin] = useState(true)
+export const AuthForm = ({ isLogin }: { isLogin?: boolean }) =>  {
+ const pathname = usePathname(); 
+
+  const isUpdatePassword = pathname === "/update-password";
 
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-2">
@@ -24,7 +28,13 @@ export const AuthForm = ({ isLogin }: { isLogin: boolean }) =>  {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {isLogin ? <SigninForm /> : <SignupForm /> }
+            {isUpdatePassword ? (
+              <UpdatePasswordForm />
+            ) : isLogin ? (
+              <SigninForm />
+            ) : (
+              <SignupForm />
+            )}
             <div className="mt-6 text-center text-sm">
               {isLogin ? (
                 <>

@@ -11,10 +11,10 @@ export const SigninForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    signinMutation.mutate({ email, password });
-  };
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+  signinMutation.mutate({ emailOrPhone: email, password });
+};
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
