@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { Menu, LogIn, LogOut, ShoppingCart } from "lucide-react"
-
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { isAuthenticated, logout } from "@/utils/auth"
@@ -26,18 +26,30 @@ export const Navbar = () => {
     router.push("/signin")
   }
 
-const handleLogout = async () => {
+  const handleLogout = async () => {
       logout();
       router.push("/");
   };
 
-
   return (
     <header className="sticky top-0 z-50 w-full border-b py-2 bg-white/90 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-950/90">
-      <div className="mx-auto max-w-7xl flex h-16 items-center justify-between px-4 md:px-6">
+      <div className="mx-auto max-w-7xl flex h-16 items-center justify-between px-4 md:px-3">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 text-lg font-bold tracking-tight md:text-xl">
-          <span className="text-gray-900 dark:text-gray-50">DenialFashion</span>
+        <Link href="/" className="flex gap-1 items-center">
+          {/* <span className="text-gray-900 dark:text-gray-50">DenialFashion</span>
+           */}
+           <div>
+             <Image
+                     src="/logo-3.png"
+                     width={70}
+                     height={70}
+                     alt="Stylish t-shirt on a hanger"
+                     priority
+                  />
+           </div>
+           <div className="font-semibold text-[20px] ">
+             DenialFashion
+           </div>
         </Link>
 
         {/* Desktop Navigation */}
