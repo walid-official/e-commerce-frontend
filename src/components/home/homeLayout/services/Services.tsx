@@ -6,6 +6,19 @@ import React from 'react';
 import Image from "next/image"
 
 export const Services = () => {
+
+ const instagramImages = [
+    "insta-1.jpg",
+    "insta-2.jpeg",
+    "insta-3.jpg",
+    "insta-4.jpeg",
+    "insta-5.jpg",
+    "insta-6.webp",
+    "insta-7.jpg",
+    "insta-8.webp",
+  ];
+
+
     return (
         <div>
              {/* Custom Design Section */}
@@ -39,7 +52,7 @@ export const Services = () => {
             </Link>
           </div>
           <Image
-            src="/placeholder.svg?height=400&width=400"
+            src="/images/custom.jpg"
             width={400}
             height={400}
             alt="Custom Design Illustration"
@@ -49,9 +62,8 @@ export const Services = () => {
       </section>
       </div>
         {/* Offers/Promotions Section */}
-        <div className='relative w-full py-12 md:py-24 lg:py-32 bg-gradient-to-br from-rose-50 to-purple-50 overflow-hidden'>
+        {/* <div className='relative w-full py-12 md:py-24 lg:py-32 bg-gradient-to-br from-rose-50 to-purple-50 overflow-hidden'>
             <section className="mx-auto max-w-7xl px-3">
-                {/* Large, bold blob shape in the background */}
                 <svg
                 className="absolute top-0 left-0 w-full h-full z-0"
                 viewBox="0 0 1000 500"
@@ -80,7 +92,7 @@ export const Services = () => {
                 </Link>
                 </div>
             </section>
-        </div>
+        </div> */}
 
      
 
@@ -115,26 +127,24 @@ export const Services = () => {
                 {
                     name: "Jane Doe",
                     quote: "The quality of these t-shirts is incredible! So soft and the print is perfect.",
-                    avatar: "/placeholder.svg?height=60&width=60",
+                    avatar: "/images/person1.jpg",
                 },
                 {
                     name: "John Smith",
                     quote: "Fast shipping and exactly what I ordered. My new favorite place for tees!",
-                    avatar: "/placeholder.svg?height=60&width=60",
+                    avatar: "/images/person2.jpg",
                 },
                 {
                     name: "Emily White",
                     quote: "I love the unique designs. Always get compliments when I wear them.",
-                    avatar: "/placeholder.svg?height=60&width=60",
+                    avatar: "/images/person3.jpg",
                 },
                 ].map((testimonial, index) => (
                 <Card key={index} className="p-6 flex flex-col items-center text-center shadow-md">
-                    <Image
+                    <img
                     src={testimonial.avatar || "/placeholder.svg"}
-                    width={60}
-                    height={60}
                     alt={`${testimonial.name}'s avatar`}
-                    className="rounded-full mb-4 object-cover"
+                    className="rounded-full w-16 h-16 mb-4 object-cover"
                     />
                     <p className="text-lg italic mb-4 text-muted-foreground">"{testimonial.quote}"</p>
                     <p className="font-semibold text-primary">- {testimonial.name}</p>
@@ -159,37 +169,38 @@ export const Services = () => {
                 </p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-                <Link key={item} href="#" passHref>
-                    <div className="relative aspect-square overflow-hidden rounded-lg group">
-                    <Image
-                        src={`/placeholder.svg?height=300&width=300&query=Instagram post ${item}`}
-                        width={300}
-                        height={300}
-                        alt={`Instagram Post ${item}`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="lucide lucide-instagram text-white w-8 h-8"
-                        >
-                        <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                        <line x1="17.5" x2="17.5" y1="6.5" y2="6.5" />
-                        </svg>
-                    </div>
-                    </div>
-                </Link>
-                ))}
+                  {instagramImages.map((img, index) => (
+              <Link key={index} href="#" passHref>
+                <div className="relative aspect-square overflow-hidden rounded-lg group">
+                  <Image
+                    src={`/instagram/${img}`}
+                    width={300}
+                    height={300}
+                    alt={`Instagram Post ${index + 1}`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    {/* Instagram Icon */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-instagram text-white w-8 h-8"
+                    >
+                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                      <line x1="17.5" x2="17.5" y1="6.5" y2="6.5" />
+                    </svg>
+                  </div>
+                </div>
+              </Link>
+            ))}
             </div>
             <div className="flex justify-center mt-12">
                 <Link href="#" passHref>
