@@ -1,18 +1,19 @@
 "use client";
 
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import {  CardContent, CardFooter } from '@/components/ui/card';
 import React from 'react';
 import Image from "next/image";
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useGetHomeProductsQuery } from '@/apis/products';
 import { Spinner } from '@/components/ui/spinner';
+import { Card } from '@/components/products/card';
 
 export const HomeProducts = () => {
     const { data, isLoading, isError } = useGetHomeProductsQuery();
     const products = data?.data;
     console.log(products);
-
+    
     if (isLoading) {
         return (
             <div className="flex items-center justify-center h-screen">
@@ -20,7 +21,6 @@ export const HomeProducts = () => {
             </div>
         );
     }
-
     return (
         <div className='relative w-full py-12 md:py-24 lg:py-32 bg-neutral-50 overflow-hidden'>
             <section className="mx-auto max-w-7xl px-3">
@@ -43,37 +43,9 @@ export const HomeProducts = () => {
                             Discover what everyone loves. Top-rated t-shirts by our customers.
                         </p>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                         {products?.map((item: any) => (
-                            <div
-                                key={item._id} // Use unique _id for key
-                                className="rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
-                            >
-                                <Link href={`/all-products/${item?._id}`} passHref>
-                                    <Image
-                                        src={`${item?.image}`}
-                                        width={500}
-                                        height={500}
-                                        alt={`Best Seller T-Shirt ${item?.name}`}
-                                        className="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300"
-                                    />
-                                    <CardContent className="p-4 text-center">
-                                        <h3 className="text-lg font-semibold mb-1">{item?.name}</h3>
-                                        <p className="text-muted-foreground text-sm mb-3">Comfort Fit</p>
-                                        <div className="flex items-center justify-center gap-2">
-                                            <span className="text-xl font-bold">{item?.price}.00 BD</span>
-                                        </div>
-                                    </CardContent>
-                                    <CardFooter className="p-4 pt-0 flex justify-center">
-                                        <Button
-                                            variant="outline"
-                                            className="w-full cursor-pointer"
-                                        >
-                                            View Details
-                                        </Button>
-                                    </CardFooter>
-                                </Link>
-                            </div>
+                          <Card key={item._id} item={item} />
                         ))}
                     </div>
                      {/* Styled Default Button */}

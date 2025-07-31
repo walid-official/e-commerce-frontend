@@ -8,7 +8,9 @@ export default function UserDashboardRootLayout({
 }) {
   return <UserLayout>
     <Navbar />
-    {children}
+    <div className='min-h-[90vh]'>
+      {children}
+    </div>
     <Footer />
     </UserLayout>;
 }
