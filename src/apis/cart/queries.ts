@@ -1,13 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { addToCartApi, clearCartApi, getCartApi, removeCartItemApi } from "./apis";
+import { addToCartApi, clearUserCartApi, getUserAllCarts, removeCartItemApi, updateCartItemQuantityApi } from "./apis";
+import toast from "react-hot-toast";
 
 // Get Cart Query
-export const useGetCartQuery = (userId: string) => {
+export const useGetUserAllCartsQuery = (userId: string) => {
   return useQuery({
-    queryKey: ['cart', userId],
-    queryFn: () => getCartApi(userId),
+    queryKey: ["user_all_carts", userId],
+    queryFn: () => getUserAllCarts(userId),
     enabled: !!userId,
-    staleTime: 0, 
+    staleTime: 0,
   });
 };
 
@@ -18,6 +19,7 @@ export const useAddToCartMutation = () => {
     mutationFn: addToCartApi,
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['cart', variables.userId] });
+       toast.success('Successfully added to cart!');
     },
   });
 };
@@ -29,17 +31,33 @@ export const useRemoveCartItemMutation = () => {
     mutationFn: removeCartItemApi,
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['cart', variables.userId] });
+      toast.success('Successfully removed from cart!');
     },
   });
 };
 
-// Clear Cart Mutation
+//  Update Quantity
+export const useUpdateCartQuantityMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: { userId: string; productId: string; quantity: number }) =>
+      updateCartItemQuantityApi(payload),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["user_all_carts", variables.userId] });
+    },
+    onError: () => toast.error(" Failed to update quantity!"),
+  });
+};
+
+//  Clear Entire Cart
 export const useClearCartMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: clearCartApi,
+    mutationFn: (userId: string) => clearUserCartApi(userId),
     onSuccess: (_, userId) => {
-      queryClient.invalidateQueries({ queryKey: ['cart', userId] });
+      queryClient.invalidateQueries({ queryKey: ["user_all_carts", userId] });
+      toast.success("🛒 Cart cleared!");
     },
+    onError: () => toast.error(" Failed to clear cart!"),
   });
 };

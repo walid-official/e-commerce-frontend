@@ -8,16 +8,28 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { CreditCard, MinusIcon, PlusIcon, ShoppingCart } from 'lucide-react';
+import { useAddToCartMutation } from '@/apis/cart';
+import { useGetUserQuery } from '@/apis/auth';
+import toast from 'react-hot-toast';
 
 type ProductDetailsProps = {
   productId: string;
 };
 export const Details = ({ productId }: ProductDetailsProps) => {
   const { data: product, isLoading, isError } = useGetProductByIdQuery(productId)
-
+  const {data: user} = useGetUserQuery()
+  console.log(user)
   const [selectedColor, setSelectedColor] = React.useState<string | undefined>(undefined)
   const [selectedSize, setSelectedSize] = React.useState<string | undefined>(undefined)
    const [quantity, setQuantity] = useState<number>(1);
+  const addToCart = useAddToCartMutation();
+
+  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    addToCart.mutate({ userId: user?._id, productId: product._id, quantity: quantity });
+    toast.success("Successfully added in cart!")
+    // console.log({ userId: user?._id, productId: product._id, quantity: quantity })
+  };
 
   const handleIncrease = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault(); 
@@ -188,7 +200,7 @@ export const Details = ({ productId }: ProductDetailsProps) => {
 
             {/* Action Buttons */}
             <div className="flex flex-col gap-4 min-[400px]:flex-row">
-                <Button size="lg" className='cursor-pointer'  disabled={!product.inStock || maxQuantity === 0}>
+              <Button onClick={handleAddToCart} size="lg" className='cursor-pointer'  disabled={!product.inStock || maxQuantity === 0}>
                 <ShoppingCart className="w-5 h-5 mr-2 " />
                 Add to Cart
                 </Button>

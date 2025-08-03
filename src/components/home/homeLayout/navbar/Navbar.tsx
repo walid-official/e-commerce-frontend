@@ -8,12 +8,17 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { isAuthenticated, logout } from "@/utils/auth"
 import { useRouter } from "next/navigation"
+import { useGetUserAllCartsQuery } from "@/apis/cart"
+import { useGetUserQuery } from "@/apis/auth"
 
 export const Navbar = () => {
 
  const isLoggedIn = isAuthenticated()
  const router = useRouter();
- 
+
+
+  // if (isLoading) return <p>Loading user carts...</p>;
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "All Products", href: "/all-products" },
@@ -67,14 +72,16 @@ export const Navbar = () => {
 
         {/* Right-aligned actions (Cart, Auth) */}
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" className="relative">
-            <ShoppingCart className="h-5 w-5" />
-            <span className="sr-only">Shopping Cart</span>
-            {/* Example for cart item count */}
-            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-              3
-            </span>
-          </Button>
+          <Link href="/carts">
+            <Button variant="ghost" size="icon" className="relative cursor-pointer">
+              <ShoppingCart className="h-5 w-5" />
+              <span className="sr-only">Shopping Cart</span>
+              {/* Example for cart item count */}
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+              5
+              </span>
+            </Button>
+          </Link>
 
           {isLoggedIn ? (
             <Button onClick={handleLogout}  variant="outline" className="hidden md:flex cursor-pointer">
