@@ -1,4 +1,4 @@
-import { Details } from '@/components/products/Details';
+import { Details } from '@/components/products/details';
 import React from 'react';
 
 const ProductDetailsPage = ({ params }: { params: { id: string } }) => {

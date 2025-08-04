@@ -11,6 +11,10 @@ import { CreditCard, MinusIcon, PlusIcon, ShoppingCart } from 'lucide-react';
 import { useAddToCartMutation } from '@/apis/cart';
 import { useGetUserQuery } from '@/apis/auth';
 import toast from 'react-hot-toast';
+import { useAppDispatch } from '@/lib/Hooks';
+import { setOrderData } from '@/store/slices/orderSlice';
+import { OrderState } from '@/interfaces/orderStore.interface';
+import { useRouter } from 'next/navigation';
 
 type ProductDetailsProps = {
   productId: string;
@@ -21,8 +25,10 @@ export const Details = ({ productId }: ProductDetailsProps) => {
   console.log(user)
   const [selectedColor, setSelectedColor] = React.useState<string | undefined>(undefined)
   const [selectedSize, setSelectedSize] = React.useState<string | undefined>(undefined)
+  const dispatch = useAppDispatch();
    const [quantity, setQuantity] = useState<number>(1);
   const addToCart = useAddToCartMutation();
+  const router = useRouter()
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -30,6 +36,30 @@ export const Details = ({ productId }: ProductDetailsProps) => {
     toast.success("Successfully added in cart!")
     // console.log({ userId: user?._id, productId: product._id, quantity: quantity })
   };
+    const handleOrderSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+
+      if (!user || !product) return;
+
+      const order: OrderState = {
+        userId: user._id,
+        items: [
+          {
+            productId: product._id,
+            quantity: quantity,
+          },
+        ],
+        totalAmount: quantity * product.price,
+        paymentMethod: 'COD',
+        status: 'pending',
+      };
+
+      dispatch(setOrderData(order));
+
+      toast.success("Order details saved. You can now continue to checkout.");
+      router.push(`/orders/${user?._id}`)
+    };
+
 
   const handleIncrease = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault(); 
@@ -204,7 +234,7 @@ export const Details = ({ productId }: ProductDetailsProps) => {
                 <ShoppingCart className="w-5 h-5 mr-2 " />
                 Add to Cart
                 </Button>
-                <Button size="lg" className='cursor-pointer' variant="outline" disabled={!product.inStock || maxQuantity === 0}>
+                <Button size="lg" onClick={handleOrderSubmit} className='cursor-pointer' variant="outline" disabled={!product.inStock || maxQuantity === 0}>
                 <CreditCard className="w-5 h-5 mr-2" />
                   Buy Now
                 </Button>
