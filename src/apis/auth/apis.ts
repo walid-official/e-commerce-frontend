@@ -1,5 +1,5 @@
 import apiClient from '@/utils/apiClient';
-import { SIGNIN, REGISTER, GET_ME, UPDATE_PASSWORD } from './endpoints';
+import { SIGNIN, REGISTER, GET_ME, UPDATE_PASSWORD, GET_ALL_USERS, GET_USER_BY_ID } from './endpoints';
 import { storeToken } from '@/utils/auth';
 
 export const signin = async (values: { emailOrPhone: string; password: string }) => {
@@ -49,3 +49,12 @@ export const getUser = async () => {
   return response.data;
 };
 
+export const getAllUsers = async () => {
+  const response = await apiClient.get(GET_ALL_USERS);
+  return response.data;
+};
+
+export const getUserById = async (userId: string) => {
+  const response = await apiClient.get(GET_USER_BY_ID(userId));
+  return response.data;
+};

@@ -1,6 +1,6 @@
 // src/app/apis/hooks.ts
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getUser, signin, signup, updatePassword } from './apis';
+import { getAllUsers, getUser, getUserById, signin, signup, updatePassword } from './apis';
 
 export const useSignupMutation = () => {
   return useMutation({
@@ -39,6 +39,25 @@ export const useGetUserQuery = () => {
   return useQuery({
     queryKey: ['user'],
     queryFn: getUser,
+    staleTime: 5 * 60 * 1000,
+    retry: 1,
+  });
+};
+
+export const useGetAllUsersQuery = () => {
+  return useQuery({
+    queryKey: ['allUsers'],
+    queryFn: getAllUsers,
+    staleTime: 5 * 60 * 1000,
+    retry: 1,
+  });
+};
+
+export const useGetUserByIdQuery = (userId: string) => {
+  return useQuery({
+    queryKey: ['userById', userId],
+    queryFn: () => getUserById(userId),
+    enabled: !!userId, 
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });

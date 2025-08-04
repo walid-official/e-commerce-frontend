@@ -1,12 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
 import { Search, Users, ShoppingCart, MoreHorizontal, Package2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,26 +13,17 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card } from "@/components/ui/card"
-
-const usersData = [
-  { id: "USR001", name: "Alice Johnson", email: "alice@example.com", role: "Admin", status: "Active" },
-  { id: "USR002", name: "Bob Williams", email: "bob@example.com", role: "Editor", status: "Active" },
-  { id: "USR003", name: "Charlie Brown", email: "charlie@example.com", role: "Viewer", status: "Inactive" },
-  { id: "USR004", name: "Diana Prince", email: "diana@example.com", role: "Admin", status: "Active" },
-  { id: "USR005", name: "Eve Adams", email: "eve@example.com", role: "Editor", status: "Active" },
-]
-
-const ordersData = [
-  { id: "ORD001", customer: "Alice Johnson", date: "2023-10-26", amount: "$120.00", status: "Completed" },
-  { id: "ORD002", customer: "Bob Williams", date: "2023-10-25", amount: "$75.50", status: "Pending" },
-  { id: "ORD003", customer: "Charlie Brown", date: "2023-10-24", amount: "$200.00", status: "Shipped" },
-  { id: "ORD004", customer: "Diana Prince", date: "2023-10-23", amount: "$50.00", status: "Completed" },
-  { id: "ORD005", customer: "Eve Adams", date: "2023-10-22", amount: "$300.00", status: "Cancelled" },
-]
+import { useGetAllOrdersQuery } from "@/apis/order"
+import { useGetAllUsersQuery } from "@/apis/auth"
+import { useRouter } from "next/navigation"
 
 export const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("users")
-
+const {data: orders} = useGetAllOrdersQuery();
+console.log(orders)
+const router = useRouter();
+const {data: users} = useGetAllUsersQuery()
+// console.log(users)
   return (
     <div className="mx-auto max-w-7xl flex flex-col min-h-screen ">
         <div className="">
@@ -44,7 +32,7 @@ export const AdminDashboard = () => {
                 <TabsList className="grid w-full grid-cols-2 max-w-sm mx-auto mb-6 bg-gray-100 dark:bg-gray-800">
                     <TabsTrigger value="users" className="flex items-center gap-2">
                     <Users className="h-4 w-4" />
-                    Users
+                    Users Order
                     </TabsTrigger>
                     <TabsTrigger value="orders" className="flex items-center gap-2">
                     <ShoppingCart className="h-4 w-4" />
@@ -61,20 +49,23 @@ export const AdminDashboard = () => {
                             <TableHead>Name</TableHead>
                             <TableHead>Email</TableHead>
                             <TableHead className="hidden md:table-cell">Role</TableHead>
-                            <TableHead className="hidden sm:table-cell">Status</TableHead>
+                            <TableHead className="hidden sm:table-cell">Phone</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
                         </TableHeader>
                         <TableBody>
-                        {usersData.map((user) => (
-                            <TableRow key={user.id}>
-                            <TableCell className="font-medium">{user.id}</TableCell>
+                        {users?.map((user: any) => (
+                            <TableRow key={user.id}
+                             className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                             onClick={() => router.push(`/dashboard/order/${user?._id}`)}
+                            >
+                            <TableCell className="font-medium">{user._id}</TableCell>
                             <TableCell>{user.name}</TableCell>
                             <TableCell>{user.email}</TableCell>
                             <TableCell className="hidden md:table-cell">{user.role}</TableCell>
-                            <TableCell className="hidden sm:table-cell">{user.status}</TableCell>
+                            <TableCell className="hidden sm:table-cell">{user.phone}</TableCell>
                             <TableCell className="text-right">
-                                <DropdownMenu>
+                                {/* <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" size="icon">
                                     <MoreHorizontal className="w-4 h-4" />
@@ -86,7 +77,8 @@ export const AdminDashboard = () => {
                                     <DropdownMenuItem>Edit User</DropdownMenuItem>
                                     <DropdownMenuItem>Delete User</DropdownMenuItem>
                                 </DropdownMenuContent>
-                                </DropdownMenu>
+                                </DropdownMenu> */}
+                                Action Not Available
                             </TableCell>
                             </TableRow>
                         ))}
@@ -101,7 +93,7 @@ export const AdminDashboard = () => {
                         <TableHeader>
                         <TableRow>
                             <TableHead className="w-[100px]">Order ID</TableHead>
-                            <TableHead>Customer</TableHead>
+                            <TableHead>User ID</TableHead>
                             <TableHead className="hidden md:table-cell">Date</TableHead>
                             <TableHead className="text-right">Amount</TableHead>
                             <TableHead className="hidden sm:table-cell">Status</TableHead>
@@ -109,13 +101,24 @@ export const AdminDashboard = () => {
                         </TableRow>
                         </TableHeader>
                         <TableBody>
-                        {ordersData.map((order) => (
-                            <TableRow key={order.id}>
-                            <TableCell className="font-medium">{order.id}</TableCell>
-                            <TableCell>{order.customer}</TableCell>
-                            <TableCell className="hidden md:table-cell">{order.date}</TableCell>
-                            <TableCell className="text-right">{order.amount}</TableCell>
-                            <TableCell className="hidden sm:table-cell">{order.status}</TableCell>
+                        {orders?.map((order: any) => (
+                            <TableRow key={order?._id}
+                            className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                             onClick={() => router.push(`/dashboard/order/${order?._id}`)}
+                            >
+                            <TableCell className="font-medium">{order?._id}</TableCell>
+                            <TableCell>
+                                {users?.find((user: any) => user._id === order.userId)?.name || "Unknown"}
+                            </TableCell>
+                            <TableCell className="hidden md:table-cell">
+                                    {new Date(order?.createdAt).toLocaleDateString('en-GB', {
+                                        day: '2-digit',
+                                        month: 'short',
+                                        year: 'numeric',
+                                    })}
+                                    </TableCell>
+                            <TableCell className="text-right">{order?.totalAmount}</TableCell>
+                            <TableCell className="hidden sm:table-cell">{order?.status}</TableCell>
                             <TableCell className="text-right">
                                 <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -125,9 +128,7 @@ export const AdminDashboard = () => {
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
-                                    <DropdownMenuItem>View Order</DropdownMenuItem>
-                                    <DropdownMenuItem>Edit Order</DropdownMenuItem>
-                                    <DropdownMenuItem>Cancel Order</DropdownMenuItem>
+                                    <DropdownMenuItem className="cursor-pointer">View Order</DropdownMenuItem>                     
                                 </DropdownMenuContent>
                                 </DropdownMenu>
                             </TableCell>

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { createOrderApi, getAllOrdersApi, getUserOrdersApi } from "./apis";
+import { createOrderApi, getAllOrdersApi, getUserOrderApi, getUserOrdersApi } from "./apis";
 
 
 // Create Order
@@ -19,7 +19,7 @@ export const useCreateOrderMutation = () => {
 };
 
 // Get User Orders
-export const useGetUserOrdersQuery = (userId: string) => {
+export const useGetUserAllOrdersQuery = (userId: string) => {
   return useQuery({
     queryKey: ["user_orders", userId],
     queryFn: () => getUserOrdersApi(userId),
@@ -33,6 +33,15 @@ export const useGetAllOrdersQuery = () => {
   return useQuery({
     queryKey: ["all_orders"],
     queryFn: getAllOrdersApi,
+    staleTime: 0,
+  });
+};
+
+export const useGetUserOrderQuery = (orderId: string) => {
+  return useQuery({
+    queryKey: ["user_orders", orderId],
+    queryFn: () => getUserOrderApi(orderId),
+    enabled: !!orderId,
     staleTime: 0,
   });
 };

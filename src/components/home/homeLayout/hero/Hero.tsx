@@ -37,7 +37,7 @@ export const Hero = () => {
                 </p>
                 </div>
                 <div className="flex flex-col gap-4 min-[400px]:flex-row">
-                <Link href="#" passHref>
+                <Link href="/all-products" passHref>
                     <button className="bg-teal-600 uppercase text-white py-3 px-8 cursor-pointer hover:bg-teal-700 duration-300 rounded-full">
                     Shop Now
                     </button>

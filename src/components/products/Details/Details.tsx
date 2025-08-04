@@ -19,6 +19,7 @@ import { useRouter } from 'next/navigation';
 type ProductDetailsProps = {
   productId: string;
 };
+
 export const Details = ({ productId }: ProductDetailsProps) => {
   const { data: product, isLoading, isError } = useGetProductByIdQuery(productId)
   const {data: user} = useGetUserQuery()
