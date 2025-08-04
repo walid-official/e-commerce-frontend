@@ -16,11 +16,12 @@ import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useAppSelector } from "@/lib/Hooks";
 import { useCreateOrderMutation } from "@/apis/order";
+import { useRouter } from "next/navigation";
 
 export const Checkout = () => {
   const order = useAppSelector((state) => state.order);
   const { mutate: createOrder } = useCreateOrderMutation();
-
+ const router = useRouter()
   const [location, setLocation] = useState({
     address: "",
     city: "",
@@ -59,6 +60,7 @@ export const Checkout = () => {
     // })
 
     setIsModalOpen(false);
+    router.push("/order-confirmation")
   };
 
   return (

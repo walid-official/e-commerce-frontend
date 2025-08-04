@@ -84,10 +84,22 @@ export const Navbar = () => {
           </Link>
 
           {isLoggedIn ? (
-            <Button onClick={handleLogout}  variant="outline" className="hidden md:flex cursor-pointer">
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Button>
+              <div className="flex gap-3">
+                  <div>
+                      <Button onClick={handleLogout}  variant="outline" className="w-full cursor-pointer">
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Logout
+                      </Button>
+                  </div>
+                  <div>
+                      <Link href="/dashboard/admin">
+                          <Button  variant="outline" className="w-full cursor-pointer">
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Dashboard
+                      </Button>
+                      </Link>
+                  </div>
+                </div>
           ) : (
             <Button onClick={handleLogin}  variant="default" className="hidden md:flex cursor-pointer">
               <LogIn className="mr-2 h-4 w-4" />
@@ -117,10 +129,23 @@ export const Navbar = () => {
                 ))}
                 <div className="mt-4 border-t pt-4">
                   {isLoggedIn ? (
-                    <Button onClick={handleLogout}  variant="outline" className="w-full cursor-pointer">
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Logout
-                    </Button>
+                    <div>
+
+                        <div>
+                        <Button onClick={handleLogout}  variant="outline" className="w-full cursor-pointer">
+                          <LogOut className="mr-2 h-4 w-4" />
+                          Logout
+                        </Button>
+                    </div>
+                    <div>
+                        <Link href="/dashboard/admin">
+                            <Button  variant="outline" className="w-full cursor-pointer">
+                          <LogOut className="mr-2 h-4 w-4" />
+                          Dashboard
+                        </Button>
+                        </Link>
+                    </div>
+                    </div>
                   ) : (
                     <Button onClick={handleLogin}  variant="default" className="w-full cursor-pointer">
                       <LogIn className="mr-2 h-4 w-4" />
