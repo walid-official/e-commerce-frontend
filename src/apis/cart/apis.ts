@@ -1,5 +1,5 @@
 import apiClient from '@/utils/apiClient';
-import { ADD_TO_CART, REMOVE_CART_ITEM, CLEAR_CART, GET_USER_ALL_CARTS } from './endpoints';
+import { ADD_TO_CART, REMOVE_CART_ITEM, GET_USER_ALL_CARTS } from './endpoints';
 
 // Add Product to Cart
 export const addToCartApi = async (payload: { userId: string; productId: string; quantity: number }) => {

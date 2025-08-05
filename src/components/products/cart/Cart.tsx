@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
 import { useGetUserQuery } from "@/apis/auth";
 import {
   useGetUserAllCartsQuery,
@@ -11,17 +10,18 @@ import {
   useClearCartMutation,
 } from "@/apis/cart";
 import { IUserCart, ICartItem } from "@/interfaces/carts.interface";
-import { XCircle, Minus, Plus, Trash2 } from "lucide-react";
+import { XCircle, Minus, Plus } from "lucide-react";
 import toast from "react-hot-toast";
+import Image from "next/image";
 import { useAppDispatch } from "@/lib/Hooks";
-import { setOrderData } from "@/store/slices/orderSlice";
-import { OrderState } from "@/interfaces/orderStore.interface";
+import { setOrderData, OrderState } from "@/store/slices/orderSlice";
 
 export const Cart = () => {
   const router = useRouter();
   const { data: user } = useGetUserQuery();
   const userId = user?._id;
-const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+
   const { data: carts, isLoading, refetch } = useGetUserAllCartsQuery(userId);
   const removeItemMutation = useRemoveCartItemMutation();
   const updateQuantityMutation = useUpdateCartQuantityMutation();
@@ -48,10 +48,11 @@ const dispatch = useAppDispatch();
     updateQuantityMutation.mutate({ userId, productId, quantity });
   };
 
-  const handleClearCart = () => {
-    if (!userId) return;
-    clearCartMutation.mutate(userId);
-  };
+  // You can uncomment and use this if needed
+  // const handleClearCart = () => {
+  //   if (!userId) return;
+  //   clearCartMutation.mutate(userId);
+  // };
 
   const handleOrderAll = () => {
     if (!user || !carts) return;
@@ -59,14 +60,20 @@ const dispatch = useAppDispatch();
     const confirmed = window.confirm("Are you sure you want to place this order?");
     if (!confirmed) return;
 
-    const allItems = carts.flatMap((cart: any) =>
-      cart.items.map((item: any) => ({
+    // Flatten all items and type them properly
+    const allItems = carts.flatMap((cart: IUserCart) =>
+      cart.items.map((item: ICartItem) => ({
         productId: item.productId._id,
         quantity: item.quantity,
       }))
     );
 
-    const totalAmount = carts.reduce((acc: any, cart: any) => acc + cart.total, 0);
+    // Calculate totalAmount properly
+    interface CartWithTotal extends IUserCart {
+      total: number;
+    }
+
+    const totalAmount = (carts as CartWithTotal[]).reduce((acc: number, cart: CartWithTotal) => acc + cart.total, 0);
 
     const order: OrderState = {
       userId: user._id,
@@ -87,9 +94,10 @@ const dispatch = useAppDispatch();
 
       {/* Cart Controls */}
       <div className="flex justify-end mb-4 gap-4">
+        {/* Uncomment below button if you want to use Clear Cart */}
         {/* <button
           onClick={handleClearCart}
-          disabled={clearCartMutation.isPending}
+          disabled={clearCartMutation.isLoading}
           className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center gap-2"
         >
           <Trash2 size={18} /> Clear Cart
@@ -115,10 +123,12 @@ const dispatch = useAppDispatch();
               >
                 {/* Product Info */}
                 <div className="flex items-center gap-4">
-                  <img
+                  <Image
                     src={item?.image || "/placeholder.png"}
                     alt={item.productId.name}
-                    className="w-16 h-16 object-cover rounded-md border"
+                    width={64}
+                    height={64}
+                    className="rounded-md border object-cover"
                   />
                   <div>
                     <p className="font-medium text-lg">{item.productId.name}</p>

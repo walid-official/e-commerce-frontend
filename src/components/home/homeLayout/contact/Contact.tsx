@@ -9,7 +9,7 @@ export const Contact = () => {
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold tracking-tight text-teal-600 sm:text-5xl">Get in Touch</h1>
           <p className="text-lg text-muted-foreground">
-            We're here to help and answer any question you might have. We look forward to hearing from you.
+            We&apos;re here to help and answer any question you might have. We look forward to hearing from you.
           </p>
         </div>
 

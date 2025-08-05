@@ -9,11 +9,41 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { isAuthenticated, logout } from "@/utils/auth";
 import { useRouter } from "next/navigation";
 import { useGetUserQuery } from "@/apis/auth";
+import { useGetUserAllCartsQuery } from "@/apis/cart";
+
+// Define types for your cart and cart items (adjust according to your API response)
+interface Product {
+  _id: string;
+  // other product fields if needed
+}
+
+interface CartItem {
+  productId: Product;
+  quantity: number;
+}
+
+interface Cart {
+  items: CartItem[];
+}
 
 export const Navbar = () => {
   const isLoggedIn = isAuthenticated();
   const router = useRouter();
   const { data: user } = useGetUserQuery();
+  const userId = user?._id;
+
+  // Removed isLoading and refetch since they are unused
+  const { data: carts } = useGetUserAllCartsQuery(userId);
+
+  const allItems =
+    Array.isArray(carts) && carts.length > 0
+      ? carts.flatMap((cart: Cart) =>
+          cart.items.map((item: CartItem) => ({
+            productId: item.productId._id,
+            quantity: item.quantity,
+          }))
+        )
+      : [];
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -26,7 +56,7 @@ export const Navbar = () => {
   const handleLogin = () => router.push("/signin");
   const handleLogout = () => {
     logout();
-    router.push("/");
+    router.push("/signin");
   };
 
   return (
@@ -59,7 +89,7 @@ export const Navbar = () => {
               <ShoppingCart className="h-5 w-5" />
               <span className="sr-only">Cart</span>
               <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] text-white">
-                5
+                {allItems?.length ?? 0}
               </span>
             </Button>
           </Link>

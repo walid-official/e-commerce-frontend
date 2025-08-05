@@ -28,7 +28,7 @@ export const Faq = () => {
               <AccordionItem value="item-2">
                 <AccordionTrigger className="text-lg font-medium">How do I get started?</AccordionTrigger>
                 <AccordionContent className="text-base text-muted-foreground">
-                  Getting started is easy! Simply sign up for a free account, and you'll be guided through our
+                  Getting started is easy! Simply sign up for a free account, and you&apos;ll be guided through our
                   onboarding process. We also have detailed tutorials available in our documentation.
                 </AccordionContent>
               </AccordionItem>

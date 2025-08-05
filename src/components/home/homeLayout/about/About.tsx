@@ -16,7 +16,7 @@ export const About = () => {
                 About DenialFashion: Redefining Style, Empowering You
               </h1>
               <p className="text-lg md:text-xl">
-                At DenialFashion, we believe that fashion is more than just clothing—it's a form of self-expression, a
+                At DenialFashion, we believe that fashion is more than just clothing—it&apos;s a form of self-expression, a
                 statement of individuality, and a journey of discovery.
               </p>
               <Link href="/all-products">
@@ -61,7 +61,7 @@ export const About = () => {
           <div className="max-w-7xl mx-auto  px-4 md:px-6 text-center">
             <div className="max-w-4xl mx-auto space-y-8">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-teal-700">
-                Our Mission & Values
+                Our Mission &amp; Values
               </h2>
               <p className="text-muted-foreground md:text-lg">
                 Our mission is to empower individuals through fashion, offering curated collections that blend
@@ -112,27 +112,27 @@ export const About = () => {
                 <li className="flex items-start gap-2">
                   <Check className="h-6 w-6 text-teal-600 shrink-0 mt-1" />
                   <span>
-                    **Curated Collections:** Hand-picked styles that reflect the latest trends and timeless classics.
+                    Curated Collections: Hand-picked styles that reflect the latest trends and timeless classics.
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="h-6 w-6 text-teal-600 shrink-0 mt-1" />
                   <span>
-                    **Exceptional Customer Service:** Our dedicated team is here to ensure your shopping experience is
+                    Exceptional Customer Service: Our dedicated team is here to ensure your shopping experience is
                     seamless and enjoyable.
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="h-6 w-6 text-teal-600 shrink-0 mt-1" />
                   <span>
-                    **Secure & Convenient Shopping:** A user-friendly platform with secure payment options and fast
+                    Secure &amp; Convenient Shopping: A user-friendly platform with secure payment options and fast
                     delivery.
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="h-6 w-6 text-teal-600 shrink-0 mt-1" />
                   <span>
-                    **Commitment to Community:** We believe in giving back and fostering a positive impact through
+                    Commitment to Community: We believe in giving back and fostering a positive impact through
                     fashion.
                   </span>
                 </li>

@@ -1,10 +1,9 @@
-// store/store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import orderReducer from './slices/orderSlice';
 
 const ORDER_KEY = 'orderState';
 
-function loadOrderState() {
+function loadOrderState(): ReturnType<typeof orderReducer> | undefined {
   if (typeof window === 'undefined') return undefined;
   try {
     const serialized = localStorage.getItem(ORDER_KEY);
@@ -16,7 +15,7 @@ function loadOrderState() {
   }
 }
 
-function saveOrderState(state: any) {
+function saveOrderState(state: AppState) {
   try {
     const serialized = JSON.stringify(state.order);
     localStorage.setItem(ORDER_KEY, serialized);
@@ -31,7 +30,7 @@ export const makeStore = () => {
       order: orderReducer,
     },
     preloadedState: {
-      order: loadOrderState(),
+      order: loadOrderState() ?? orderReducer(undefined, { type: '@@INIT' }),
     },
   });
 

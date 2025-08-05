@@ -1,6 +1,4 @@
 "use client"
-
-import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"

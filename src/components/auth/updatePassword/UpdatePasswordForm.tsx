@@ -1,31 +1,46 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useGetUserQuery, useUpdatePasswordMutation } from "@/apis/auth";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useGetUserQuery, useUpdatePasswordMutation } from '@/apis/auth';
+
+interface ApiError {
+  response?: {
+    data?: {
+      error?: string;
+      message?: string;
+    };
+  };
+  message: string;
+}
 
 export const UpdatePasswordForm = () => {
   const { data: user } = useGetUserQuery();
-  const { mutateAsync, isPending, isError, error } = useUpdatePasswordMutation();
+  const {
+    mutateAsync,
+    isPending,
+    isError,
+    error,
+  } = useUpdatePasswordMutation();
 
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState('');
 
-  // Extract user data safely
-  const email = user?.email || "";
-  const name = user?.name || "";
-   let phone = user?.phone || "";
+  const email = user?.email || '';
+  const name = user?.name || '';
+  let phone = user?.phone || '';
 
-  if (phone.startsWith("+880")) {
-    phone = phone.replace("+880", "0");
+  if (phone.startsWith('+880')) {
+    phone = phone.replace('+880', '0');
   }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email || !name || !phone) {
-      console.error("Missing required user info");
-      alert("User info is incomplete!");
+      console.error('Missing required user info');
+      alert('User info is incomplete!');
       return;
     }
 
@@ -37,13 +52,16 @@ export const UpdatePasswordForm = () => {
         newPassword: password,
       });
 
-      alert("Password updated successfully!");
-      setPassword("");
-    } catch (err: any) {
-      console.error(err);
-      alert(err?.response?.data?.error || "Failed to update password");
+      alert('Password updated successfully!');
+      setPassword('');
+    } catch (err) {
+      const apiError = err as ApiError;
+      console.error(apiError);
+      alert(apiError.response?.data?.error || apiError.message || 'Failed to update password');
     }
   };
+
+  const typedError = error as ApiError;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -79,13 +97,13 @@ export const UpdatePasswordForm = () => {
 
       {/* Submit Button */}
       <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending ? "Updating..." : "Update Password"}
+        {isPending ? 'Updating...' : 'Update Password'}
       </Button>
 
       {/* Error Message */}
       {isError && (
         <p className="text-red-500 text-sm">
-          {(error as any)?.message || "Something went wrong"}
+          {typedError?.response?.data?.message || typedError?.message || 'Something went wrong'}
         </p>
       )}
     </form>

@@ -55,6 +55,8 @@ export const Details = ({ productId }: ProductDetailsProps) => {
         status: 'pending',
       };
 
+      
+
       dispatch(setOrderData(order));
 
       toast.success("Order details saved. You can now continue to checkout.");

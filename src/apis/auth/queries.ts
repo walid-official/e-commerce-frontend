@@ -1,40 +1,77 @@
 // src/app/apis/hooks.ts
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { getAllUsers, getUser, getUserById, signin, signup, updatePassword } from './apis';
 
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { 
+  getAllUsers, 
+  getUser, 
+  getUserById, 
+  signin, 
+  signup, 
+  updatePassword 
+} from './apis';
+
+interface SigninValues {
+  emailOrPhone: string;
+  password: string;
+}
+
+interface SignupValues {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  [key: string]: unknown; 
+}
+
+interface UpdatePasswordValues {
+  email: string;
+  name: string;
+  phone: string;
+  newPassword: string;
+}
+
+interface ApiError {
+  response?: {
+    data?: {
+      error?: string;
+    };
+  };
+  message: string;
+}
+
+//  Signup Mutation
 export const useSignupMutation = () => {
   return useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: SignupValues) => {
       return await signup(data);
     },
   });
 };
 
+// Signin Mutation
 export const useSigninMutation = () => {
   return useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: SigninValues) => {
       return await signin(data);
     },
-    onError: (error: any) => {
-      console.error('Mutation error:', error.response?.data?.error || error.message);
-      alert(error.response?.data?.error || 'Login failed');
+    onError: (error: unknown) => {
+      const err = error as ApiError;
+      console.error('Mutation error:', err.response?.data?.error || err.message);
+      alert(err.response?.data?.error || 'Login failed');
     },
   });
 };
 
+// ✅ Update Password Mutation
 export const useUpdatePasswordMutation = () => {
   return useMutation({
-    mutationFn: async (data: { 
-      email: string; 
-      name: string; 
-      phone: string; 
-      newPassword: string; 
-    }) => {
+    mutationFn: async (data: UpdatePasswordValues) => {
       return await updatePassword(data);
     },
   });
 };
 
+// ✅ Get current user
 export const useGetUserQuery = () => {
   return useQuery({
     queryKey: ['user'],
@@ -44,6 +81,7 @@ export const useGetUserQuery = () => {
   });
 };
 
+// ✅ Get all users
 export const useGetAllUsersQuery = () => {
   return useQuery({
     queryKey: ['allUsers'],
@@ -53,6 +91,7 @@ export const useGetAllUsersQuery = () => {
   });
 };
 
+// ✅ Get user by ID
 export const useGetUserByIdQuery = (userId: string) => {
   return useQuery({
     queryKey: ['userById', userId],

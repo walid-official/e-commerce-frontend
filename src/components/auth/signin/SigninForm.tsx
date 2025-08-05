@@ -9,7 +9,15 @@ import { useRouter } from 'next/navigation';
 import { Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-
+interface ApiError {
+  response?: {
+    data?: {
+      error?: string;
+      message?: string;
+    };
+  };
+  message: string;
+}
 
 export const SigninForm = () => {
   const router = useRouter();
@@ -24,14 +32,14 @@ export const SigninForm = () => {
     try {
       await signinMutation.mutateAsync({ emailOrPhone: email, password });
       toast.success('Login successful');
-      const redirectTo = "/";
-      router.push(redirectTo);
-    } catch (error: any) {
-      toast.error("something went wrong with")
+      router.push('/');
+    } catch (error) {
+      const err = error as ApiError;
+      toast.error(err.response?.data?.error || err.message || 'Something went wrong');
     }
   };
 
-  // if (isLoggedIn) return null;
+  const mutationError = signinMutation.error as ApiError | null;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
@@ -71,7 +79,7 @@ export const SigninForm = () => {
 
       {signinMutation.isError && (
         <p className="text-red-500 text-sm">
-          {(signinMutation.error as any)?.response?.data?.message || 'Login failed'}
+          {mutationError?.response?.data?.message || mutationError?.message || 'Login failed'}
         </p>
       )}
     </form>

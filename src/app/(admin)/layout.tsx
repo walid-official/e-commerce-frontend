@@ -1,4 +1,6 @@
+import { Navbar } from "@/components/home/homeLayout/navbar";
 import { AdminLayout } from "./AdminLayout";
+import { Footer } from "@/components/home/homeLayout/footer";
 
 export default function UserDashboardRootLayout({
   children,
@@ -6,8 +8,10 @@ export default function UserDashboardRootLayout({
   children: React.ReactNode;
 }) {
   return <AdminLayout>
-    <div className='min-h-[90vh]'>
-      {children}
-    </div>
+    <Navbar />
+      <div className='min-h-[90vh]'>
+        {children}
+      </div>
+      <Footer />
     </AdminLayout>;
 }

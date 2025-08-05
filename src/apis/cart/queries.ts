@@ -1,8 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { addToCartApi, clearUserCartApi, getUserAllCarts, removeCartItemApi, updateCartItemQuantityApi } from "./apis";
+import {
+  addToCartApi,
+  clearUserCartApi,
+  getUserAllCarts,
+  removeCartItemApi,
+  updateCartItemQuantityApi,
+} from "./apis";
 import toast from "react-hot-toast";
 
-// Get Cart Query
+//  Get Cart Query
 export const useGetUserAllCartsQuery = (userId: string) => {
   return useQuery({
     queryKey: ["user_all_carts", userId],
@@ -12,26 +18,26 @@ export const useGetUserAllCartsQuery = (userId: string) => {
   });
 };
 
-// Add to Cart Mutation
+//  Add to Cart Mutation
 export const useAddToCartMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: addToCartApi,
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['cart', variables.userId] });
-       toast.success('Successfully added to cart!');
+      queryClient.invalidateQueries({ queryKey: ["user_all_carts", variables.userId] }); //  fixed key
+      toast.success("Successfully added to cart!");
     },
   });
 };
 
-// Remove Cart Item Mutation
+//  Remove Cart Item Mutation
 export const useRemoveCartItemMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: removeCartItemApi,
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['cart', variables.userId] });
-      toast.success('Successfully removed from cart!');
+      queryClient.invalidateQueries({ queryKey: ["user_all_carts", variables.userId] }); //  fixed key
+      toast.success("Successfully removed from cart!");
     },
   });
 };

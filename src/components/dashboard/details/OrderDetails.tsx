@@ -20,18 +20,49 @@ type OrderDetailsProps = {
   userId: string;
 };
 
+interface OrderItem {
+  _id: string;
+  productId: string;
+  quantity: number;
+}
+
+interface Location {
+  address: string;
+  city: string;
+  district: string;
+  postalCode: string;
+}
+
+interface Order {
+  _id: string;
+  userId: string;
+  items: OrderItem[];
+  status: string;
+  createdAt: string;
+  paymentMethod: string;
+  location?: Location;
+}
+
+interface User {
+  name: string;
+  email: string;
+  phone?: string;
+}
+
 export const OrderDetails = ({ userId }: OrderDetailsProps) => {
   const { data: orders, isLoading: ordersLoading } = useGetAllOrdersQuery();
   const { data: user, isLoading: userLoading } = useGetUserByIdQuery(userId);
 
-  const filteredOrders = orders?.filter((order: any) => order.userId === userId);
-  
-  const totalAmount =
-  filteredOrders?.reduce((acc: number, order: any) => {
-    const totalQuantity = order.items?.reduce((sum: number, item: any) => sum + item.quantity, 0);
-    return acc + totalQuantity;
-  }, 0) * 200;
+  const filteredOrders = orders?.filter((order: Order) => order.userId === userId);
 
+  const totalAmount =
+    filteredOrders?.reduce((acc: number, order: Order) => {
+      const totalQuantity = order.items?.reduce(
+        (sum: number, item: OrderItem) => sum + item.quantity,
+        0
+      );
+      return acc + totalQuantity;
+    }, 0) * 200;
 
   if (ordersLoading || userLoading) return <div>Loading...</div>;
 
@@ -98,16 +129,16 @@ export const OrderDetails = ({ userId }: OrderDetailsProps) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredOrders.map((order: any) => (
+              {filteredOrders.map((order: Order) => (
                 <TableRow key={order._id}>
                   <TableCell>{order._id}</TableCell>
                   <TableCell>
-                    {order.items.map((item: any) => (
+                    {order.items.map((item: OrderItem) => (
                       <div key={item._id}>{item.productId}</div>
                     ))}
                   </TableCell>
                   <TableCell className="text-right">
-                    {order.items.map((item: any) => (
+                    {order.items.map((item: OrderItem) => (
                       <div key={item._id}>{item.quantity}</div>
                     ))}
                   </TableCell>

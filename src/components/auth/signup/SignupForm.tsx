@@ -1,22 +1,40 @@
 'use client';
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useSignupMutation } from "@/apis/auth";
-import { useRouter } from "next/navigation";
-import { Eye, EyeOff } from "lucide-react";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useSignupMutation } from '@/apis/auth';
+import { useRouter } from 'next/navigation';
+import { Eye, EyeOff } from 'lucide-react';
+
+interface SignupFormData {
+  name: string;
+  phone: string;
+  email: string;
+  password: string;
+  [key: string]: string;
+}
+
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+      error?: string;
+    };
+  };
+  message: string;
+}
 
 export const SignupForm = () => {
   const signupMutation = useSignupMutation();
   const router = useRouter();
 
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    password: "",
+  const [form, setForm] = useState<SignupFormData>({
+    name: '',
+    phone: '',
+    email: '',
+    password: '',
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -27,9 +45,12 @@ export const SignupForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    signupMutation.mutate(form);
-    router.push("/");
+    signupMutation.mutate(form, {
+      onSuccess: () => router.push('/'),
+    });
   };
+
+  const error = signupMutation.error as ApiError | null;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
@@ -72,7 +93,7 @@ export const SignupForm = () => {
         <Label htmlFor="password">Password</Label>
         <Input
           id="password"
-          type={showPassword ? "text" : "password"}
+          type={showPassword ? 'text' : 'password'}
           value={form.password}
           onChange={handleChange}
           required
@@ -91,12 +112,12 @@ export const SignupForm = () => {
         className="w-full cursor-pointer"
         disabled={signupMutation.isPending}
       >
-        {signupMutation.isPending ? "Signing up..." : "Sign Up"}
+        {signupMutation.isPending ? 'Signing up...' : 'Sign Up'}
       </Button>
 
       {signupMutation.isError && (
         <p className="text-red-500 text-sm">
-          {(signupMutation.error as any)?.message || "Signup failed"}
+          {error?.response?.data?.message || error?.message || 'Signup failed'}
         </p>
       )}
     </form>

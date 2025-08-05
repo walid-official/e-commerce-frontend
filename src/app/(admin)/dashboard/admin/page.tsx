@@ -1,6 +1,5 @@
 
 import { AdminDashboard } from '@/components/dashboard';
-import { withRole } from '@/libs';
 import React from 'react';
 
 const AdminDashboardPage = () => {

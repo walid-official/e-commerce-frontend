@@ -8,5 +8,5 @@ export interface OrderState {
   items: OrderItem[];
   totalAmount: number;
   paymentMethod: 'COD';
-  status: 'pending' | 'confirmed' | 'delivered';
+  status: "pending" | "processing" | "completed" | "cancelled"
 }
