@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "framework": "nextjs",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "outputDirectory": ".next",
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm run build",
+  "devCommand": "pnpm run dev",
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
