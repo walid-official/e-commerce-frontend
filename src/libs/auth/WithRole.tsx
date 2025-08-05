@@ -20,13 +20,13 @@ export function withRole<P extends JSX.IntrinsicAttributes>(
 
     const { isPending, error, data } = useGetUserQuery();
 
-    console.log(data?.user?.role)
+    console.log(data?.role)
 
     if (isPending) {
       return <div className="text-center py-10">Loading...</div>;
     }
 
-    if (error || !data?.user?.role) {
+    if (error || !data?.role) {
       const currentPath =
         pathname + (searchParams.toString() ? '?' + searchParams.toString() : '');
       const redirectPath = `signin?redirect=${encodeURIComponent(currentPath)}`;
@@ -34,8 +34,7 @@ export function withRole<P extends JSX.IntrinsicAttributes>(
       return null;
     }
 
-    // ✅ Corrected role check
-    const hasRequiredRole = requiredRoles.includes(data?.user?.role);
+    const hasRequiredRole = requiredRoles.includes(data?.role);
 
     console.log(hasRequiredRole)
 

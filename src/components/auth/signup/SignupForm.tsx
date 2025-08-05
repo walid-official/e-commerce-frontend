@@ -1,19 +1,25 @@
-"use client";
+'use client';
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useSignupMutation } from "@/apis/auth";
+import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 
 export const SignupForm = () => {
   const signupMutation = useSignupMutation();
+  const router = useRouter();
+
   const [form, setForm] = useState({
     name: "",
     phone: "",
     email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.id]: e.target.value });
@@ -22,54 +28,77 @@ export const SignupForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     signupMutation.mutate(form);
+    router.push("/");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
       <div className="space-y-2">
         <Label htmlFor="name">Name</Label>
-        <Input id="name" value={form.name} onChange={handleChange} placeholder="John Doe" required />
+        <Input
+          id="name"
+          value={form.name}
+          onChange={handleChange}
+          placeholder="John Doe"
+          required
+        />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="phone">Phone</Label>
-        <Input id="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
+        <Input
+          id="phone"
+          type="tel"
+          value={form.phone}
+          onChange={handleChange}
+          placeholder="0123456788"
+          required
+        />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
-        <Input id="email" type="email" value={form.email} onChange={handleChange} placeholder="m@example.com" required />
+        <Input
+          id="email"
+          type="email"
+          value={form.email}
+          onChange={handleChange}
+          placeholder="m@example.com"
+          required
+        />
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-2 relative">
         <Label htmlFor="password">Password</Label>
-        <Input id="password" type="password" value={form.password} onChange={handleChange} required />
+        <Input
+          id="password"
+          type={showPassword ? "text" : "password"}
+          value={form.password}
+          onChange={handleChange}
+          required
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword((prev) => !prev)}
+          className="absolute top-9 right-3 text-gray-500 hover:text-gray-700"
+        >
+          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+        </button>
       </div>
 
-      <Button type="submit" className="w-full" disabled={signupMutation.isPending}>
+      <Button
+        type="submit"
+        className="w-full cursor-pointer"
+        disabled={signupMutation.isPending}
+      >
         {signupMutation.isPending ? "Signing up..." : "Sign Up"}
       </Button>
 
       {signupMutation.isError && (
-        <p className="text-red-500 text-sm">{(signupMutation.error as any)?.message}</p>
+        <p className="text-red-500 text-sm">
+          {(signupMutation.error as any)?.message || "Signup failed"}
+        </p>
       )}
     </form>
   );
 };
-
-
-{/* <Separator className="my-6" /> */}
-      {/* <div className="space-y-2">
-        <Button variant="outline" className="w-full bg-transparent">
-          <ChromeIcon className="mr-2 h-4 w-4" />
-          Sign up with Google
-        </Button>
-        <Button variant="outline" className="w-full bg-transparent">
-          <GithubIcon className="mr-2 h-4 w-4" />
-          Sign up with Facebook
-        </Button>
-        <Button variant="outline" className="w-full bg-transparent">
-          <AppleIcon className="mr-2 h-4 w-4" />
-          Sign up with Apple
-        </Button>
-      </div> */}

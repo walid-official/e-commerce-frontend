@@ -18,12 +18,15 @@ export const storeToken = (token: string) => {
     }
   };
 
-  export const logout = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('authToken');
-      window.location.href = '/signin'; 
-    }
-  };
+export const logout = (shouldRedirect = true) => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('authToken');
+    // if (shouldRedirect) {
+    //   window.location.href = '/signin';
+    // }
+  }
+};
+
   
   export const isAuthenticated = (): boolean => {
     return !!getToken();

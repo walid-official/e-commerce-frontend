@@ -42,6 +42,12 @@ apiClient.interceptors.response.use(
       } catch (refreshError) {
         console.error('Refresh token failed:', refreshError);
         logout(); 
+         if (typeof window !== 'undefined') {
+          const allowedPaths = ['/', '/about', '/contact', '/faq', '/all-products'];
+          if (!allowedPaths.includes(window.location.pathname)) {
+            window.location.href = '/signin';
+          }
+        }
       }
     }
 
