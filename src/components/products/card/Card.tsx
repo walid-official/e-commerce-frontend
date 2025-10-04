@@ -21,7 +21,7 @@ export const Card: React.FC<CardProps> = ({ item }) => {
   return (
     <div className="rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
       <Link href={`/all-products/${item._id}`} passHref>
-        <a>
+        <div>
           <div className="relative w-full h-96">
             <Image
               src={item.image}
@@ -48,7 +48,7 @@ export const Card: React.FC<CardProps> = ({ item }) => {
               View Details
             </Button>
           </CardFooter>
-        </a>
+        </div>
       </Link>
     </div>
   );

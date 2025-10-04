@@ -31,7 +31,6 @@ export default function OrderPage({ params }: PageProps) {
 
   return (
     <div>
-      <h1>Order Details for ID: {id}</h1>
       {/* Your component logic */}
       <OrderDetails userId={params.id} />
     </div>

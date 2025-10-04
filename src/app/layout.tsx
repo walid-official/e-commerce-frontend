@@ -27,6 +27,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel='icon' href='/logo-3.png' />
+        {/* <meta name='description' content='Future Bangladesh' />
+        <link rel='apple-touch-icon' href='/logo.png' />
+        <link rel='manifest' href='/manifest.json' /> */}
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

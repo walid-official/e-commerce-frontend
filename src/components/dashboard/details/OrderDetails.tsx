@@ -26,13 +26,6 @@ interface OrderItem {
   quantity: number;
 }
 
-interface Location {
-  address: string;
-  city: string;
-  district: string;
-  postalCode: string;
-}
-
 interface Order {
   _id: string;
   userId: string;
@@ -40,7 +33,7 @@ interface Order {
   status: string;
   createdAt: string;
   paymentMethod: string;
-  location?: Location;
+  location?: string | undefined;
 }
 
 interface User {
@@ -53,7 +46,10 @@ export const OrderDetails = ({ userId }: OrderDetailsProps) => {
   const { data: orders, isLoading: ordersLoading } = useGetAllOrdersQuery();
   const { data: user, isLoading: userLoading } = useGetUserByIdQuery(userId);
 
+  console.log(orders)
+
   const filteredOrders = orders?.filter((order: Order) => order.userId === userId);
+  console.log(filteredOrders)
 
   const totalAmount =
     filteredOrders?.reduce((acc: number, order: Order) => {
@@ -148,11 +144,8 @@ export const OrderDetails = ({ userId }: OrderDetailsProps) => {
                   </TableCell>
                   <TableCell className="text-right">{order.paymentMethod}</TableCell>
                   <TableCell className="text-right">
-                    <div>{order.location?.address}</div>
-                    <div>
-                      {order.location?.city}, {order.location?.district}
-                    </div>
-                    <div>{order.location?.postalCode}</div>
+                    <div>{order?.location}</div>
+                   
                   </TableCell>
                 </TableRow>
               ))}

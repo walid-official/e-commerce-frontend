@@ -116,61 +116,60 @@ export const Cart = () => {
           <h3 className="text-lg font-semibold mb-3">🧾 Cart #{index + 1}</h3>
 
           <div className="grid gap-4">
-            {cart.items.map((item: ICartItem) => (
-              <div
-                key={item.productId._id}
-                className="flex items-center justify-between bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition"
-              >
-                {/* Product Info */}
-                <div className="flex items-center gap-4">
-                  <Image
-                    src={item?.image || "/placeholder.png"}
-                    alt={item.productId.name}
-                    width={64}
-                    height={64}
-                    className="rounded-md border object-cover"
-                  />
-                  <div>
-                    <p className="font-medium text-lg">{item.productId.name}</p>
-                    <p className="text-sm text-gray-500">Price: ${item.price}</p>
-                  </div>
-                </div>
+           {cart.items.map((item: ICartItem) => (
+  <div
+    key={item.productId._id}
+    className="flex flex-col sm:flex-row sm:items-center justify-between bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition gap-4"
+  >
+    {/* Product Info */}
+    <div className="flex items-center gap-4">
+      <Image
+        src={item?.image || "/placeholder.png"}
+        alt={item.productId.name}
+        width={64}
+        height={64}
+        className="rounded-md border object-cover"
+      />
+      <div>
+        <p className="font-medium text-base sm:text-lg">{item.productId.name}</p>
+        <p className="text-sm text-gray-500">Price: ${item.price}</p>
+      </div>
+    </div>
 
-                {/* Quantity Controls */}
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() =>
-                      handleUpdateQuantity(item.productId._id, item.quantity - 1)
-                    }
-                    className="p-2 bg-gray-200 rounded hover:bg-gray-300"
-                  >
-                    <Minus size={16} />
-                  </button>
-                  <span className="font-semibold">{item.quantity}</span>
-                  <button
-                    onClick={() =>
-                      handleUpdateQuantity(item.productId._id, item.quantity + 1)
-                    }
-                    className="p-2 bg-gray-200 rounded hover:bg-gray-300"
-                  >
-                    <Plus size={16} />
-                  </button>
-                </div>
+    {/* Quantity & Actions */}
+    <div className="flex flex-col sm:flex-row sm:items-center gap-3 justify-between w-full sm:w-auto">
+      {/* Quantity Controls */}
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => handleUpdateQuantity(item.productId._id, item.quantity - 1)}
+          className="p-2 bg-gray-200 rounded hover:bg-gray-300"
+        >
+          <Minus size={16} />
+        </button>
+        <span className="font-semibold">{item.quantity}</span>
+        <button
+          onClick={() => handleUpdateQuantity(item.productId._id, item.quantity + 1)}
+          className="p-2 bg-gray-200 rounded hover:bg-gray-300"
+        >
+          <Plus size={16} />
+        </button>
+      </div>
 
-                {/* Subtotal */}
-                <p className="w-24 text-right font-semibold">
-                  ${(item.price * item.quantity).toFixed(2)}
-                </p>
+      {/* Subtotal */}
+      <p className="font-semibold text-sm sm:text-base text-right sm:text-left">
+        ${(item.price * item.quantity).toFixed(2)}
+      </p>
 
-                {/* Delete Item */}
-                <button
-                  onClick={() => handleRemoveItem(item.productId._id)}
-                  className="text-red-500 cursor-pointer hover:text-red-700 transition"
-                >
-                  <XCircle size={24} />
-                </button>
-              </div>
-            ))}
+      {/* Delete Item */}
+      <button
+        onClick={() => handleRemoveItem(item.productId._id)}
+        className="text-red-500 hover:text-red-700 transition"
+      >
+        <XCircle size={24} />
+      </button>
+    </div>
+  </div>
+))}
           </div>
 
           {/* Cart Total */}

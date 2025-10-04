@@ -95,7 +95,7 @@ export const Navbar = () => {
           </Link>
 
           {/* Auth Buttons (Desktop Only) */}
-          {isLoggedIn ? (
+          {user ? (
             <div className="hidden md:flex gap-2">
               {user?.role === "admin" && (
                 <Link href="/dashboard/admin">
